@@ -3,7 +3,7 @@ from sys import getsizeof
 
 class Graph:
 
-    def __init__(self, directed=False, nodes_list=()):
+    def __init__(self, directed=False, nodes_list=None):
         if nodes_list is None:
             nodes_list = []
         self.data = {}  # Dict of dicts
