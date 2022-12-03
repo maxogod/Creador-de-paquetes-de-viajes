@@ -64,25 +64,7 @@ class Graph:
 
     def get_a_node(self):
         """ Returns a non-random node """
-        # I could make it random but I'd have to use a second dict, and it'd make the graph
+        # I could make it random, but I'd have to use a second dict, and it'd make the graph
         # O(2V + E) in memory instead of O(V + E). maybe I do it eventually
         for i in self.data:
             return i
-
-
-# def populated_graph() -> Graph:
-#     """ Returns a small undirected and unweighted graph for **testing** """
-#     g = Graph(False)
-#     for i in "ABCDEFGHIJK":
-#         g.add_node(i)
-#     g.add_edge("A", "B")
-#     g.add_edge("A", "D")
-#     g.add_edge("A", "E")
-#     g.add_edge("A", "C")
-#     g.add_edge("C", "J")
-#     g.add_edge("D", "G")
-#     g.add_edge("G", "H")
-#     g.add_edge("G", "F")
-#     g.add_edge("G", "I")
-#     g.add_edge("K", "G")
-#     return g
