@@ -1,0 +1,5 @@
+COMANDO1 = "ir"
+COMANDO2 = "itinerario"
+COMANDO3 = "viaje"
+COMANDO4 = "reducir_caminos"
+CORTAR = "cortar"

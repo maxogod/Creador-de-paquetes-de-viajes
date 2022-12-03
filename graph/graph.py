@@ -72,7 +72,7 @@ class Graph:
 
 # def populated_graph() -> Graph:
 #     """ Returns a small undirected and unweighted graph for **testing** """
-#     g = Graph()
+#     g = Graph(False)
 #     for i in "ABCDEFGHIJK":
 #         g.add_node(i)
 #     g.add_edge("A", "B")
