@@ -15,10 +15,17 @@ class VamosMoshi:
         while ingreso is not CORTAR:
             comando = ingreso.split()
             if comando[0] == COMANDO1:
-                desde = self.nombre_a_ciudad[comando[1].rstrip(",")]
-                hasta = self.nombre_a_ciudad[comando[2].rstrip(",")]
-                tiempo, padres = self.camino_minimo(desde, hasta)
-                mostrar_camino(padres, hasta, tiempo=tiempo)
+                try:
+                    desde = self.nombre_a_ciudad[comando[1].rstrip(",")]
+                    hasta = self.nombre_a_ciudad[comando[2].rstrip(",")]
+                    tiempo, padres = self.camino_minimo(desde, hasta)
+                    if tiempo is None:
+                        print(RECORRIDO_NO_ENCONTRADO)
+                    else:
+                        mostrar_camino(padres, hasta, tiempo=tiempo)
+                        # TODO crear KML
+                except KeyError:
+                    print(RECORRIDO_NO_ENCONTRADO)
 
             elif comando[0] == COMANDO2:
                 pass
@@ -40,14 +47,14 @@ class VamosMoshi:
         while len(hp) != 0:
             _, v = heappop(hp)
             if v == hasta:
-                break
+                return dist[hasta], padres
             for w in self.grafo.get_edges_of_node(v):
                 dist_por_camino = dist[v] + self.grafo.get_weight_of_edge(v, w)
                 if dist_por_camino < dist[w]:
                     dist[w] = dist_por_camino
                     padres[w] = v
                     heappush(hp, (dist[w], w))
-        return dist[hasta], padres
+        return None, None
 
     def itinerario_recomendaciones(self):
         pass
