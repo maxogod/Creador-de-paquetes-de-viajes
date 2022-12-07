@@ -2,7 +2,7 @@ from pyvis.network import Network  # Graph Visualization
 from ciudades import Ciudad
 
 
-def crear_network_desde_pajek(archivo='archivos/qatar.pj') -> None:
+def crear_network_desde_pajek(archivo='archivos/qatar.pj', nuevo='graph_vis.html') -> None:
     grafo = Network()
 
     with open(archivo) as a:
@@ -18,8 +18,8 @@ def crear_network_desde_pajek(archivo='archivos/qatar.pj') -> None:
             grafo.add_edge(ciudad1_nombre, ciudad2_nombre,
                            title=str(tiempo_ciudad_ciudad), color='#77DD77')
 
-    grafo.show('graph_vis.html')
+    grafo.show(nuevo)
 
 
 if __name__ == '__main__':
-    crear_network_desde_pajek()
+    crear_network_desde_pajek('aa.pj', 'aa.html')

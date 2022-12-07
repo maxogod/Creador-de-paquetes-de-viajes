@@ -32,3 +32,13 @@ def mostrar_camino_itinerario(lista_itinerario,tiempo_total):
 
     return f"{camino}\nTiempo total:{tiempo_total}"
 
+
+def mostrar_peso_total(grafo):
+    peso = 0
+    visitados = set()
+    for v in grafo:
+        visitados.add(v)
+        for w in grafo.adyacentes(v):
+            if not w in visitados:
+                peso += grafo.obtener_peso_arista(v, w)
+    return f'Peso total: {peso}'

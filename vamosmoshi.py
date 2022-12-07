@@ -7,8 +7,7 @@ from procesar_archivos import crear_grafo_desde_pajek
 from heapq import *
 import mostrar_datos_stdin as md
 import crear_archivos as ca
-
-
+from grafo.grafo import Grafo
 
 
 class VamosMoshi:
@@ -85,7 +84,24 @@ class VamosMoshi:
         pass
 
     def arbol_tendido_minimo(self):
-        pass
+        visitado, hp, v = set(), [], self.grafo.obtener_un_nodo()
+        visitado.add(v)
+        for w in self.grafo.adyacentes(v):
+            heappush(hp, (self.grafo.obtener_peso_arista(v, w),
+                     v.obtener_nombre(), w.obtener_nombre()))
+        arbol = Grafo(lista_nodos=self.grafo.obtener_nodos())
+        while len(hp) != 0:
+            peso, v, w = heappop(hp)
+            v, w = self.nombre_a_ciudad[v], self.nombre_a_ciudad[w]
+            if w in visitado:
+                continue
+            arbol.agregar_arista(v, w, peso)
+            visitado.add(w)
+            for u in self.grafo.adyacentes(w):
+                if u not in visitado:
+                    heappush(hp, (self.grafo.obtener_peso_arista(
+                        w, u), w.obtener_nombre(), u.obtener_nombre()))
+        return arbol
 
 
 def dfs(grafo, v, e, ciudades_bloqueados, visitados, lista_nodos, tiempo_total):
@@ -148,7 +164,7 @@ def ejecutar(archivo_mapa):
                 else:
                     print(md.mostrar_camino(padres, hasta, tiempo=tiempo))
                     ca.crear_archivo_kml(parametros[2], desde, hasta, padres)
-            except KeyError:  # Desde o Hasta no es un vertice
+            except KeyError:  # En caso no exista vertice *desde* o *hasta*
                 print(RECORRIDO_NO_ENCONTRADO)
 
         elif comando == ITINERARIO:  # itinerario recomendaciones.csv
@@ -160,7 +176,9 @@ def ejecutar(archivo_mapa):
             pass
 
         elif comando == REDUCIR_CAMINOS:  # reducir_caminos destino.pj
-            pass
+            arbol = programa.arbol_tendido_minimo()
+            print(md.mostrar_peso_total(arbol))
+            ca.crear_archivo_pj(parametros[0], arbol)
 
         ingreso = input().lower()
 
