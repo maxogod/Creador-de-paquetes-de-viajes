@@ -3,6 +3,7 @@ from constantes import *
 from procesar_pajek import crear_grafo_desde_pajek
 from heapq import *
 import mostrar_datos_stdin as md
+import crear_archivos as ca
 
 
 class VamosMoshi:
@@ -14,19 +15,21 @@ class VamosMoshi:
         Una vez instanciada esta clase el diccionario *nombre_a_ciudad* se encuentra lleno
         con Key-Values tal como lo indica su nombre.
         """
+        self.nombre_a_ciudad = nombre_a_ciudad
         self.grafo = crear_grafo_desde_pajek(
-            archivo_mapa, nombre_a_ciudad)
+            archivo_mapa, self.nombre_a_ciudad)
 
     def camino_minimo(self, desde, hasta):
-        dist = padres = {}
+        dist, padres = {}, {}
         for v in self.grafo:
             dist[v] = float('inf')
         dist[desde], padres[desde] = 0, None
         hp = []
-        heappush(hp, (0, desde))
+        heappush(hp, (0, desde.obtener_nombre()))
 
         while len(hp) != 0:
             _, v = heappop(hp)
+            v = self.nombre_a_ciudad[v]
             if v == hasta:
                 return dist[hasta], padres
             for w in self.grafo.adyacentes(v):
@@ -35,7 +38,8 @@ class VamosMoshi:
                 if dist_por_camino < dist[w]:
                     dist[w] = dist_por_camino
                     padres[w] = v
-                    heappush(hp, (dist[w], w))
+                    heappush(
+                        hp, (dist[w], w.obtener_nombre()))
         return None, None
 
     def itinerario_recomendaciones(self):
@@ -59,15 +63,16 @@ def ejecutar(archivo_mapa):
 
         if comando == IR:  # ir desde, hasta, archivo
             try:
-                desde = nombre_a_ciudad[parametros[0].rstrip(',')]
-                hasta = nombre_a_ciudad[parametros[1].rstrip(',')]
+                desde = nombre_a_ciudad[parametros[0].rstrip(',').capitalize()]
+                hasta = nombre_a_ciudad[parametros[1].rstrip(',').capitalize()]
 
                 tiempo, padres = programa.camino_minimo(desde, hasta)
+
                 if tiempo is None:
                     print(RECORRIDO_NO_ENCONTRADO)
                 else:
-                    md.mostrar_camino(padres, hasta, tiempo=tiempo)
-                    # TODO crear KML
+                    print(md.mostrar_camino(padres, hasta, tiempo=tiempo))
+                    ca.crear_archivo_kml(parametros[2], desde, hasta, padres)
             except KeyError:  # Desde o Hasta no es un vertice
                 print(RECORRIDO_NO_ENCONTRADO)
 
