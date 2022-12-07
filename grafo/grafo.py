@@ -66,3 +66,6 @@ class Grafo:
         """ Retorna un nodo NO random """
         for i in self.datos:
             return i
+
+    def obtener_nodos(self):
+        return self.datos.keys()
