@@ -1,9 +1,14 @@
 import sys
+from collections import deque
+
+import procesar_archivos
 from constantes import *
-from procesar_pajek import crear_grafo_desde_pajek
+from procesar_archivos import crear_grafo_desde_pajek
 from heapq import *
 import mostrar_datos_stdin as md
 import crear_archivos as ca
+
+
 
 
 class VamosMoshi:
@@ -42,14 +47,84 @@ class VamosMoshi:
                         hp, (dist[w], w.obtener_nombre()))
         return None, None
 
-    def itinerario_recomendaciones(self):
-        pass
+    def itinerario_recomendaciones(self,grafo_recomendaciones):
+
+        indeg = obtener_grados_de_entrada(grafo_recomendaciones)
+        ciudades_bloqueados = set()
+        lista_itinerario = []
+        tiempo_total = 0
+        for ciudad in indeg:
+            if indeg[ciudad] > 0:
+                ciudades_bloqueados.add(ciudad)
+
+        q = deque()
+        for v in grafo_recomendaciones:
+            if indeg[v] == 0:
+                q.append(v)
+        while len(q) != 0:
+            v = q.popleft()
+            lista_itinerario.append(v)
+            for e in grafo_recomendaciones.adyacentes(v):
+                indeg[e] -= 1
+                if indeg[e] == 0 and grafo_recomendaciones.arista_existe(v, e):
+                    q.append(e)
+                    ciudades_bloqueados.remove(e)
+                    lista_itinerario.append(e)
+                    tiempo_total += grafo_recomendaciones.obtener_peso_arista(v, e)
+                elif indeg[e] == 0:
+                    ciudades_bloqueados.remove(e)
+                    lista_nodos_a_unir,tiempo_sub_total = unir_nodos(self.grafo,v,e,ciudades_bloqueados)
+                    lista_itinerario.extend(lista_nodos_a_unir)
+                    tiempo_sub_total += tiempo_sub_total
+
+        return lista_itinerario
+
+
 
     def recorrido_circular(self):
         pass
 
     def arbol_tendido_minimo(self):
         pass
+
+
+def dfs(grafo, v, e, ciudades_bloqueados, visitados, lista_nodos, tiempo_total):
+    for w in grafo.adyacentes(v):
+        tiempo_total += grafo.obtener_peso_arista(v, w)
+
+        if w == e:
+            return True
+        if w not in visitados and w not in ciudades_bloqueados:
+            lista_nodos.append(w)
+            visitados.add(w)
+            return dfs(grafo, w, e, ciudades_bloqueados, visitados, lista_nodos, tiempo_total)
+        return False
+
+
+
+def unir_nodos(grafo,v,e,ciudades_bloqueados):
+    lista_nodos = []
+    tiempo_total = 0
+    visitados = set()
+    for w in grafo.adyacentes(v):
+      encontado = dfs(grafo, w, e, ciudades_bloqueados, visitados, lista_nodos, tiempo_total)
+
+    if encontado:
+        return lista_nodos,tiempo_total
+    else:
+        #error
+
+
+
+def obtener_grados_de_entrada(grafo):
+        indeg = {}
+        for v in grafo:
+            indeg[v] = 0
+        for v in grafo:
+            for e in grafo.edges(v):
+                indeg[e] += 1
+
+        return indeg
 
 
 def ejecutar(archivo_mapa):
@@ -77,7 +152,9 @@ def ejecutar(archivo_mapa):
                 print(RECORRIDO_NO_ENCONTRADO)
 
         elif comando == ITINERARIO:  # itinerario recomendaciones.csv
-            pass
+            recomendaciones = parametros[0]
+            grafo_recomendacinoes = procesar_archivos.procesar_recomendaciones_csv(recomendaciones)
+            print(programa.itinerario_recomendaciones(grafo_recomendacinoes))
 
         elif comando == VIAJE:  # viaje origen, archivo
             pass

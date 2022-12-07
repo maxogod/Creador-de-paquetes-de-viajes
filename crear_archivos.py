@@ -20,10 +20,5 @@ def crear_archivo_kml(nombre_archivo, desde, hasta, padres):
 def crear_archivo_pj(nombre_archivo):
     pass
 
-
-def crear_archivo_csv(nombre_archivo):
-    pass
-
-
 if __name__ == '__main__':
     crear_archivo_kml('athus.kml')

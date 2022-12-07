@@ -19,3 +19,16 @@ def mostrar_camino(padres, hasta, tiempo=None):
             camino += ciudad_nombre + ' -> '
 
     return f"{camino}" if tiempo is None else f"{camino}\nTiempo total:{tiempo}"
+
+
+def mostrar_camino_itinerario(lista_itinerario,tiempo_total):
+
+    camino = ""
+    for ciudad in lista_itinerario:
+        if ciudad == lista_itinerario[-1]:
+            camino = camino + ciudad.obtener_nombre()
+        else:
+            camino = ciudad.obtener_nombre() + "->"
+
+    return f"{camino}\nTiempo total:{tiempo_total}"
+
