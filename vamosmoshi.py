@@ -2,41 +2,22 @@ import sys
 from constantes import *
 from procesar_pajek import crear_grafo_desde_pajek
 from heapq import *
+import mostrar_datos_stdin as md
 
 
 class VamosMoshi:
 
-    def __init__(self, args):
-        self.nombre_a_ciudad = {}
-        self.grafo = crear_grafo_desde_pajek(args, self.nombre_a_ciudad)
+    def __init__(self, archivo_mapa, nombre_a_ciudad):
+        """
+        Crea un grafo a partir del archivo .pj, y permite aplicar diferentes metodos
+        sobre este. 
+        Una vez instanciada esta clase el diccionario *nombre_a_ciudad* se encuentra lleno
+        con Key-Values tal como lo indica su nombre.
+        """
+        self.grafo = crear_grafo_desde_pajek(
+            archivo_mapa, nombre_a_ciudad)
 
-    def ejecutar(self):
-        ingreso = input().lower()
-        while ingreso is not CORTAR:
-            comando = ingreso.split()
-            if comando[0] == COMANDO1:
-                try:
-                    desde = self.nombre_a_ciudad[comando[1].rstrip(",")]
-                    hasta = self.nombre_a_ciudad[comando[2].rstrip(",")]
-                    tiempo, padres = self.camino_minimo(desde, hasta)
-                    if tiempo is None:
-                        print(RECORRIDO_NO_ENCONTRADO)
-                    else:
-                        mostrar_camino(padres, hasta, tiempo=tiempo)
-                        # TODO crear KML
-                except KeyError:
-                    print(RECORRIDO_NO_ENCONTRADO)
-
-            elif comando[0] == COMANDO2:
-                pass
-            elif comando[0] == COMANDO3:
-                pass
-            elif comando[0] == COMANDO4:
-                pass
-
-            ingreso = input().lower()
-
-    def camino_minimo(self, desde, hasta) -> (int, dict):
+    def camino_minimo(self, desde, hasta):
         dist = padres = {}
         for v in self.grafo:
             dist[v] = float('inf')
@@ -48,8 +29,9 @@ class VamosMoshi:
             _, v = heappop(hp)
             if v == hasta:
                 return dist[hasta], padres
-            for w in self.grafo.get_edges_of_node(v):
-                dist_por_camino = dist[v] + self.grafo.get_weight_of_edge(v, w)
+            for w in self.grafo.adyacentes(v):
+                dist_por_camino = dist[v] + \
+                    self.grafo.obtener_peso_arista(v, w)
                 if dist_por_camino < dist[w]:
                     dist[w] = dist_por_camino
                     padres[w] = v
@@ -66,22 +48,41 @@ class VamosMoshi:
         pass
 
 
-def mostrar_camino(padres, hasta, tiempo=None):
-    camino_lista = []
-    while hasta is not None:
-        camino_lista.append(hasta)
-        hasta = padres[hasta]
-    camino_lista = camino_lista[::-1]
+def ejecutar(archivo_mapa):
+    nombre_a_ciudad = {}
+    programa = VamosMoshi(archivo_mapa, nombre_a_ciudad)
 
-    camino = ""
-    for ciudad in camino_lista:
-        ciudad_nombre = ciudad.obtener_nombre()
-        camino.join(ciudad_nombre) if ciudad == camino_lista[-1] else camino.join(ciudad_nombre + " -> ")
+    ingreso = input().lower()
+    while ingreso is not CORTAR_STDIN:
 
-    return f"{camino}" if tiempo is None else f"{camino}\nTiempo total:{tiempo}"
+        comando, parametros = ingreso.split()[0], ingreso.split()[1:]
+
+        if comando == IR:  # ir desde, hasta, archivo
+            try:
+                desde = nombre_a_ciudad[parametros[0].rstrip(',')]
+                hasta = nombre_a_ciudad[parametros[1].rstrip(',')]
+
+                tiempo, padres = programa.camino_minimo(desde, hasta)
+                if tiempo is None:
+                    print(RECORRIDO_NO_ENCONTRADO)
+                else:
+                    md.mostrar_camino(padres, hasta, tiempo=tiempo)
+                    # TODO crear KML
+            except KeyError:  # Desde o Hasta no es un vertice
+                print(RECORRIDO_NO_ENCONTRADO)
+
+        elif comando == ITINERARIO:  # itinerario recomendaciones.csv
+            pass
+
+        elif comando == VIAJE:  # viaje origen, archivo
+            pass
+
+        elif comando == REDUCIR_CAMINOS:  # reducir_caminos destino.pj
+            pass
+
+        ingreso = input().lower()
 
 
 if __name__ == '__main__':
     archivo = sys.argv[1]
-    programa = VamosMoshi(archivo)
-    programa.ejecutar()
+    ejecutar(archivo)

@@ -14,6 +14,3 @@ def crear_archivo_pj(nombre_archivo):
 
 def crear_archivo_csv(nombre_archivo):
     pass
-
-
-crear_archivo_kml()

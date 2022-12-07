@@ -2,6 +2,9 @@
 class Ciudad:
 
     def __init__(self, nombre, lat, lon):
+        """
+        Crea un objeto Ciudad con los datos pasados al instanciarse la clase (nombre, lat, lon)
+        """
         self.nombre = nombre
         self.lat = lat
         self.lon = lon
