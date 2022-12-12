@@ -1,81 +1,19 @@
 import sys
-from constantes import *
-from procesar_pajek import crear_grafo_desde_pajek
-from heapq import *
-import mostrar_datos_stdin as md
-import crear_archivos as ca
-from grafo.grafo import Grafo
-
-
-class VamosMoshi:
-
-    def __init__(self, archivo_mapa, nombre_a_ciudad):
-        """
-        Crea un grafo a partir del archivo .pj, y permite aplicar diferentes metodos
-        sobre este. 
-        Una vez instanciada esta clase el diccionario *nombre_a_ciudad* se encuentra lleno
-        con Key-Values tal como lo indica su nombre.
-        """
-        self.nombre_a_ciudad = nombre_a_ciudad
-        self.grafo = crear_grafo_desde_pajek(
-            archivo_mapa, self.nombre_a_ciudad)
-
-    def camino_minimo(self, desde, hasta):
-        dist, padres = {}, {}
-        for v in self.grafo:
-            dist[v] = float('inf')
-        dist[desde], padres[desde] = 0, None
-        hp = []
-        heappush(hp, (0, desde.obtener_nombre()))
-
-        while len(hp) != 0:
-            _, v = heappop(hp)
-            v = self.nombre_a_ciudad[v]
-            if v == hasta:
-                return dist[hasta], padres
-            for w in self.grafo.adyacentes(v):
-                dist_por_camino = dist[v] + \
-                    self.grafo.obtener_peso_arista(v, w)
-                if dist_por_camino < dist[w]:
-                    dist[w] = dist_por_camino
-                    padres[w] = v
-                    heappush(
-                        hp, (dist[w], w.obtener_nombre()))
-        return None, None
-
-    def itinerario_recomendaciones(self):
-        pass
-
-    def recorrido_circular(self):
-        pass
-
-    def arbol_tendido_minimo(self):
-        visitado, hp, v = set(), [], self.grafo.obtener_un_nodo()
-        visitado.add(v)
-        for w in self.grafo.adyacentes(v):
-            heappush(hp, (self.grafo.obtener_peso_arista(v, w),
-                     v.obtener_nombre(), w.obtener_nombre()))
-        arbol = Grafo(lista_nodos=self.grafo.obtener_nodos())
-        while len(hp) != 0:
-            peso, v, w = heappop(hp)
-            v, w = self.nombre_a_ciudad[v], self.nombre_a_ciudad[w]
-            if w in visitado:
-                continue
-            arbol.agregar_arista(v, w, peso)
-            visitado.add(w)
-            for u in self.grafo.adyacentes(w):
-                if u not in visitado:
-                    heappush(hp, (self.grafo.obtener_peso_arista(
-                        w, u), w.obtener_nombre(), u.obtener_nombre()))
-        return arbol
+from manejo_de_datos.constantes import *
+import manejo_de_datos.mostrar_datos_stdin as md
+import manejo_de_datos.crear_archivos as ca
+from vamosmoshi_programa import VamosMoshi
 
 
 def ejecutar(archivo_mapa):
     nombre_a_ciudad = {}
     programa = VamosMoshi(archivo_mapa, nombre_a_ciudad)
 
-    ingreso = input().lower()
-    while ingreso is not CORTAR_STDIN:
+    while True:
+        try:
+            ingreso = input().lower()
+        except EOFError:
+            break
 
         comando, parametros = ingreso.split()[0], ingreso.split()[1:]
 
@@ -91,21 +29,38 @@ def ejecutar(archivo_mapa):
                 else:
                     print(md.mostrar_camino(padres, hasta, tiempo=tiempo))
                     ca.crear_archivo_kml(parametros[2], desde, hasta, padres)
-            except KeyError:  # En caso no exista vertice *desde* o *hasta*
+            except KeyError:
                 print(RECORRIDO_NO_ENCONTRADO)
 
         elif comando == ITINERARIO:  # itinerario recomendaciones.csv
-            pass
+            recomendaciones = parametros[0]
+            itinerario = programa.itinerario_recomendaciones(recomendaciones)
+            if itinerario is None:
+                print(RECORRIDO_NO_ENCONTRADO)
+            else:
+                print(md.mostrar_camino(camino_lista=itinerario))
 
         elif comando == VIAJE:  # viaje origen, archivo
-            pass
+            origen, archivo_nombre = parametros[0], parametros[1]
+            try:
+                origen = nombre_a_ciudad[parametros[0].rstrip(
+                    ',').capitalize()]
+
+                recorrido, tiempo_total = programa.recorrido_completo(origen)
+                if recorrido is None:
+                    print(RECORRIDO_NO_ENCONTRADO)
+                else:
+                    print(md.mostrar_camino(camino_lista=recorrido,
+                                            tiempo=tiempo_total))
+                    ca.crear_archivo_kml(
+                        archivo_nombre, origen, origen, camino_lista=recorrido)
+            except KeyError:
+                print(RECORRIDO_NO_ENCONTRADO)
 
         elif comando == REDUCIR_CAMINOS:  # reducir_caminos destino.pj
             arbol = programa.arbol_tendido_minimo()
             print(md.mostrar_peso_total(arbol))
             ca.crear_archivo_pj(parametros[0], arbol)
-
-        ingreso = input().lower()
 
 
 if __name__ == '__main__':

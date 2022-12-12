@@ -5,15 +5,15 @@ class Ciudad:
         """
         Crea un objeto Ciudad con los datos pasados al instanciarse la clase (nombre, lat, lon)
         """
-        self.nombre = nombre
-        self.lat = lat
-        self.lon = lon
+        self.__nombre = nombre
+        self.__lat = lat
+        self.__lon = lon
 
     def obtener_nombre(self):
-        return self.nombre
+        return self.__nombre
 
     def obtener_latitud(self):
-        return self.lat
+        return self.__lat
 
     def obtener_longitud(self):
-        return self.lon
+        return self.__lon

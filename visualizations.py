@@ -1,5 +1,5 @@
 from pyvis.network import Network  # Graph Visualization
-from ciudades import Ciudad
+from manejo_de_datos.tdas.grafo import Grafo
 
 
 def crear_network_desde_pajek(archivo='archivos/qatar.pj', nuevo='graph_vis.html') -> None:
@@ -22,4 +22,5 @@ def crear_network_desde_pajek(archivo='archivos/qatar.pj', nuevo='graph_vis.html
 
 
 if __name__ == '__main__':
-    crear_network_desde_pajek('aa.pj', 'aa.html')
+    crear_network_desde_pajek(
+        'archivos_tests/qatar.pj', 'visualizations/graph_vis.html')
