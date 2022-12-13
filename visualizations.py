@@ -23,4 +23,4 @@ def crear_network_desde_pajek(archivo='archivos/qatar.pj', nuevo='graph_vis.html
 
 if __name__ == '__main__':
     crear_network_desde_pajek(
-        'archivos_tests/qatar.pj', 'visualizations/graph_vis.html')
+        'archivos_tests/camino_euler.pj', 'visualizations/camino_euler.html')
