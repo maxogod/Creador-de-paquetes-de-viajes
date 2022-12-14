@@ -16,22 +16,22 @@ def crear_archivo_kml(nombre_archivo, desde, hasta, padres=None, camino_lista=No
             hasta = padres[hasta]
         camino_lista = camino_lista[::-1]
 
+    puntos_agregados = set()  # Para asegurarse de no repetir puntos (ej en comando -viaje-)
     for ciudad in camino_lista:
-        kml.agregar_point(ciudad.obtener_nombre(),
-                          ciudad.obtener_latitud(), ciudad.obtener_longitud())
+        if ciudad.obtener_nombre() not in puntos_agregados:
+            kml.agregar_point(ciudad.obtener_nombre(),
+                              ciudad.obtener_latitud(), ciudad.obtener_longitud())
+            puntos_agregados.add(ciudad.obtener_nombre())
 
     for i in range(len(camino_lista)-1):
         # Agregar aristas (LineStrings)
-        nombre = f'{camino_lista[i].obtener_nombre()} - {camino_lista[i+1].obtener_nombre()}'
         coords = [
             (camino_lista[i].obtener_latitud(),
-             camino_lista[i].obtener_longitud(),
-             0.0),
+             camino_lista[i].obtener_longitud(),),
             (camino_lista[i+1].obtener_latitud(),
-             camino_lista[i+1].obtener_longitud(),
-             0.0),
+             camino_lista[i+1].obtener_longitud(),),
         ]
-        kml.agregar_linestring(nombre, coords)
+        kml.agregar_linestring(coords)
 
     kml.guardar(nombre_archivo)
 
@@ -67,16 +67,15 @@ class Kml():
         Permite crear points y linestrings
         """
         atributos_kml = {
-            'xmlns': 'http://www.opengis.net/kml/2.2',
-            'xmlns:gx': 'http://www.google.com/kml/ext/2.2',
+            'xmlns': 'http://earth.google.com/kml/2.1',
         }
         self.raiz = et.Element('kml', attrib=atributos_kml)
         self.doc = et.SubElement(self.raiz, 'Document')
-        # et.indent(self.raiz, space='    ', level=0)
         # Para que el .kml sea mas lejible (no incluido porque el corrector automatico no lo tiene)
+        indentar(self.raiz, nivel=0)
         et.SubElement(self.doc, 'name').text = nombre_kml
 
-    def agregar_point(self, nombre, lat=0.0, lon=0.0, alt=0.0):
+    def agregar_point(self, nombre, lat=0.0, lon=0.0):
         """
         Crea un point con los datos pasados
         """
@@ -84,25 +83,44 @@ class Kml():
         et.SubElement(pm, 'name').text = nombre
 
         pt = et.SubElement(pm, 'Point')
-        et.SubElement(pt, 'coordinates').text = f'{lat},{lon},{alt}'
+        et.SubElement(pt, 'coordinates').text = f'{lat}, {lon}'
 
-        # et.indent(self.doc, space='    ', level=1) # Para que el .kml sea mas lejible
+        # Para que el .kml sea mas lejible
+        indentar(self.doc, nivel=1)
 
-    def agregar_linestring(self, name, coords):
+    def agregar_linestring(self, coords):
         """
         Crea un linestring a partir de un nombre, y una lista de 2 tuplas
         de la forma [(lat1, lon1, alt1), (lat2, lon2, alt2)]
         """
         pm = et.SubElement(self.doc, 'Placemark')
-        et.SubElement(pm, 'name').text = name
 
         ls = et.SubElement(pm, 'LineString')
-        coords1 = f'{coords[0][0]},{coords[0][1]},{coords[0][2]}'
-        coords2 = f'{coords[1][0]},{coords[1][1]},{coords[1][2]}'
+        coords1 = f'{coords[0][0]}, {coords[0][1]}'
+        coords2 = f'{coords[1][0]}, {coords[1][1]}'
         et.SubElement(ls, 'coordinates').text = f'{coords1} {coords2}'
 
-        # et.indent(self.doc, space='    ', level=1) # Para que el .kml sea mas lejible
+        # Para que el .kml sea mas lejible
+        indentar(self.doc, nivel=1)
 
     def guardar(self, filename):
         tree = et.ElementTree(self.raiz)
         tree.write(filename, encoding='UTF-8', xml_declaration=True)
+
+
+def indentar(elem, nivel=0):
+    i = "\n" + nivel*"    "
+    j = "\n" + (nivel-1)*"    "
+    if len(elem):
+        if not elem.text or not elem.text.strip():
+            elem.text = i + "    "
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = i
+        for subelem in elem:
+            indentar(subelem, nivel+1)
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = j
+    else:
+        if nivel and (not elem.tail or not elem.tail.strip()):
+            elem.tail = j
+    return elem

@@ -4,7 +4,6 @@ from manejo_de_datos.constantes import *
 import manejo_de_datos.mostrar_datos_stdin as md
 import manejo_de_datos.crear_archivos as ca
 from vamosmoshi_programa import VamosMoshi
-import re
 
 
 def ejecutar(archivo_mapa):
@@ -13,7 +12,7 @@ def ejecutar(archivo_mapa):
 
     while True:
         try:
-            ingreso = input().lower()
+            ingreso = input()
         except EOFError:
             break
 
@@ -24,14 +23,8 @@ def ejecutar(archivo_mapa):
                 desde_nombre, hasta_nombre, archivo_nombre = parametros.split(
                     ',')
 
-                # Capitalizar los nombres
-                desde_nombre = re.sub(
-                    r'\b[a-z]', lambda m: m.group().upper(), desde_nombre)
-                hasta_nombre = re.sub(
-                    r'\b[a-z]', lambda m: m.group().upper(), hasta_nombre).lstrip()
-
                 desde = nombre_a_ciudad[desde_nombre]
-                hasta = nombre_a_ciudad[hasta_nombre]
+                hasta = nombre_a_ciudad[hasta_nombre.lstrip()]
 
                 tiempo, padres = programa.camino_minimo(desde, hasta)
 
@@ -56,8 +49,6 @@ def ejecutar(archivo_mapa):
             origen_nombre, archivo_nombre = parametros.split(',')
 
             # Capitalizar Nombre
-            origen_nombre = re.sub(
-                r'\b[a-z]', lambda m: m.group().upper(), origen_nombre)
             try:
                 origen = nombre_a_ciudad[origen_nombre]
 

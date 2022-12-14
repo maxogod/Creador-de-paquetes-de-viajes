@@ -18,7 +18,7 @@ def mostrar_camino(padres=None, hasta=None, tiempo=None, camino_lista=None):
         else:
             camino += ciudad.obtener_nombre() + " -> "
 
-    return f"{camino}" if tiempo is None else f"{camino}\nTiempo total:{tiempo}"
+    return f"{camino}" if tiempo is None else f"{camino}\nTiempo total: {tiempo}"
 
 
 def mostrar_peso_total(grafo):

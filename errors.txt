@@ -1,43 +1,46 @@
-1-
-	AttributeError: module 'xml.etree.ElementTree' has no attribute 'indent'
+Pruebas de Camino mas corto: Qatar, Rusia y el Mundo!-
+	1-
+		OK	
 
-	Error en esta prueba: no se imprimieron todas las salidas esperadas
-
-
-2-
-	AttributeError: module 'xml.etree.ElementTree' has no attribute 'indent'
-
-	Error: En comando 1 Se indica que no existe recorrido, cuando se esperaba
-	un camino de costo 6
-
-	 Error en esta prueba: no se imprimieron todas las salidas esperadas
+	2-
+		OK
 
 
-3-
-	AttributeError: module 'xml.etree.ElementTree' has no attribute 'indent'
+	3-
+		OK
 
-	Error en esta prueba: no se imprimieron todas las salidas esperadas
-
-
-4- OK
-
+	4- 	
+		OK
 
 itinerario-
-	Error: No se incluyendo todas las ciudades en el itinerario
+	qatar-
+		OK
 
-
-volumen- OK
+	volumen-
+		OK
 
 
 viaje-
-	AttributeError: module 'xml.etree.ElementTree' has no attribute 'indent'
+	sin viaje posible-
 
-	Error: No deberia haberse encontrado viaje en esta prueba
-        Comandos de la prueba:
-                viaje Fuwayrit, m1.kml
+		Error: No deberia haberse encontrado viaje en esta prueba
+        	Comandos de la prueba:
+               	 viaje Fuwayrit, m1.kml
 
-qatar-
-	AttributeError: module 'xml.etree.ElementTree' has no attribute 'indent'
+	qatar-
+		OK
+	
+	rusia-
+		OK
 
-	ValueError: invalid literal for int() with base 10: 'total:172'
+	mundo-
+		RecursionError: maximum recursion depth exceeded while calling a Python object
+        Se esperaba alguna salida pero no se escribió nada por salida estándar
+
+reduccion-
+	qatar-
+		OK
+	
+	volumen(mundo)-
+		OK
 

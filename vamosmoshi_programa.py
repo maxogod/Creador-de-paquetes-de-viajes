@@ -72,6 +72,10 @@ class VamosMoshi:
             # No se puede crear itinerario con las restricciones dadas
             return None
 
+        for v in self.__grafo:
+            if v not in grafo_recomendacion:
+                lista_itinerario.append(v)
+
         return lista_itinerario
 
     def arbol_tendido_minimo(self):
@@ -107,93 +111,41 @@ class VamosMoshi:
         Calcula un recorrido desde un origen tal que se vean todas las rutas.
         Devuelve (lista_camino, tiempo_viaje)
         """
-        grados_impares, origen_es_grado_impar = cantidad_grados_impares(
-            self.__grafo, origen)
-        tiempo_total = obtener_suma_pesos_grafo(self.__grafo)
-        if grados_impares == 0:
-            return self.__recorrido_ciclo_euleriano(origen), tiempo_total
-        elif grados_impares == 2 and origen_es_grado_impar:
-            return self.__recorrido_camino_euleriano(origen), tiempo_total
-        return None, None  # No es ningun tipo de camino euleriano
 
-    def __recorrido_camino_euleriano(self, origen):
-        # Algoritmo Fleury
-        grafo_copia = Grafo(lista_nodos=self.__grafo.obtener_nodos())
+        if cantidad_grados_impares(self.__grafo) == 0:
+            return self.__recorrido_circular(origen)
+
+        return None, None  # No es ciclo euleriano
+
+    def __recorrido_circular(self, origen):
+        # Copiamos el grafo en un dict de listas, para poder borrar las aristas facilmente
+        adyacentes = {}
         for v in self.__grafo:
+            adyacentes[v] = []
             for w in self.__grafo.adyacentes(v):
-                grafo_copia.agregar_arista(v, w)
+                adyacentes[v].append(w)
 
-        camino_euleriano = []
-        cantidad_aristas = obtener_cantidad_aristas(self.__grafo)
-
-        self.__dfs_camino_euleriano(
-            origen, grafo_copia, cantidad_aristas, camino_euleriano)
-        return camino_euleriano
-
-    def __dfs_camino_euleriano(self, v, grafo_copia, cantidad_aristas, camino_euleriano):
-
-        camino_euleriano.append(v)
-
-        if cantidad_aristas == 0:
-            return
-
-        for w in self.__grafo.adyacentes(v):
-            if not grafo_copia.arista_existe(v, w) or (arista_puente(grafo_copia, w) and len(grafo_copia.adyacentes(v)) > 1):
-                continue
-
-            grafo_copia.sacar_arista(v, w)
-
-            self.__dfs_camino_euleriano(
-                w, grafo_copia, cantidad_aristas-1, camino_euleriano)
-
-    def __recorrido_ciclo_euleriano(self, origen):
-        # Algoritmo Hierholzer
+        tiempo = 0
+        camino_actual = [origen]
+        recorrido = []
         aristas_visitadas = set()
-        recorrido = [origen]
-        cantidad_aristas = obtener_cantidad_aristas(self.__grafo)
 
-        self.__dfs_ciclo_euleriano(
-            origen, origen, recorrido, aristas_visitadas, True)
+        while camino_actual:
+            v = camino_actual[-1]
+            if adyacentes[v] and not (v, adyacentes[v][-1]) in aristas_visitadas:
+                w = adyacentes[v].pop()
 
-        while len(recorrido) < cantidad_aristas:
-
-            # Encontramos nodo con aristas por visitar que va a ser el nuevo origen
-            # Este for loop generalmente solo hace 1, 2 o 3 vueltas antes de Breakear
-            for i in range(len(recorrido)-2, -1, -1):
-                nuevo_origen_encontrado = False
-                for w in self.__grafo.adyacentes(recorrido[i]):
-                    if (recorrido[i], w) not in aristas_visitadas:
-                        nuevo_origen_encontrado = True
-                        nuevo_origen = recorrido[i]
-                        nuevo_origen_pos = i
-                        break
-                if nuevo_origen_encontrado:
-                    break
-
-            camino_restante = [nuevo_origen]
-
-            self.__dfs_ciclo_euleriano(
-                nuevo_origen, nuevo_origen, camino_restante, aristas_visitadas, True)
-
-            ultimo_tramo = recorrido[nuevo_origen_pos+1:]
-            recorrido = recorrido[:nuevo_origen_pos] + camino_restante
-            recorrido.extend(ultimo_tramo)
-
-        return recorrido
-
-    def __dfs_ciclo_euleriano(self, v, origen, recorrido, aristas_visitadas, continuar):
-
-        for w in self.__grafo.adyacentes(v):
-            if v == origen and not continuar:
-                return False
-
-            if (v, w) not in aristas_visitadas:
                 aristas_visitadas.add((v, w))
                 aristas_visitadas.add((w, v))
-                recorrido.append(w)
+                tiempo += self.__grafo.obtener_peso_arista(v, w)
 
-                if not self.__dfs_ciclo_euleriano(w, origen, recorrido, aristas_visitadas, False):
-                    break
+                camino_actual.append(w)
+
+            elif adyacentes[v] and (v, adyacentes[v][-1]) in aristas_visitadas:
+                adyacentes[v].pop()
+            else:
+                recorrido.append(camino_actual.pop())
+        return recorrido, tiempo
 
 
 # Funciones auxiliares usadas en VamosMoshi
@@ -206,18 +158,15 @@ def obtener_cantidad_aristas(grafo):
     return cantidad_aristas / 2
 
 
-def cantidad_grados_impares(grafo, vertice_a_checkear):
+def cantidad_grados_impares(grafo):
     # Devuelve cantidad grados impares y bool si el vertice dado tiene grado impar
     cant = 0
-    vertice_es_grado_impar = False
 
     for v in grafo:
         if len(grafo.adyacentes(v)) % 2 != 0:
             cant += 1
-            if v == vertice_a_checkear:
-                vertice_es_grado_impar = True
 
-    return cant, vertice_es_grado_impar
+    return cant
 
 
 def grados_entrada_grafo_recomendacion(grafo_recomendacion):
@@ -230,11 +179,7 @@ def grados_entrada_grafo_recomendacion(grafo_recomendacion):
     return entr
 
 
-def arista_puente(grafo, w):
-    return len(grafo.adyacentes(w)) == 1
-
-
-def obtener_suma_pesos_grafo(grafo: Grafo):
+def obtener_suma_pesos_grafo(grafo):
     suma = 0
     visitados = set()
     for v in grafo:
