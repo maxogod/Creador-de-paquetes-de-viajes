@@ -3,6 +3,7 @@ from manejo_de_datos.constantes import *
 import manejo_de_datos.mostrar_datos_stdin as md
 import manejo_de_datos.crear_archivos as ca
 from vamosmoshi_programa import VamosMoshi
+import re
 
 
 def ejecutar(archivo_mapa):
@@ -15,12 +16,19 @@ def ejecutar(archivo_mapa):
         except EOFError:
             break
 
-        comando, parametros = ingreso.split()[0], ingreso.split()[1:]
+        comando, parametros = ingreso.split(' ', maxsplit=1)
 
         if comando == IR:  # ir desde, hasta, archivo
             try:
-                desde = nombre_a_ciudad[parametros[0].rstrip(',').capitalize()]
-                hasta = nombre_a_ciudad[parametros[1].rstrip(',').capitalize()]
+                desde_nombre, hasta_nombre, archivo_nombre = parametros.split(
+                    ',')
+                desde_nombre = re.sub(
+                    r'\b[a-z]', lambda m: m.group().upper(), desde_nombre)
+                hasta_nombre = re.sub(
+                    r'\b[a-z]', lambda m: m.group().upper(), hasta_nombre).lstrip()
+
+                desde = nombre_a_ciudad[desde_nombre]
+                hasta = nombre_a_ciudad[hasta_nombre]
 
                 tiempo, padres = programa.camino_minimo(desde, hasta)
 
@@ -28,12 +36,13 @@ def ejecutar(archivo_mapa):
                     print(RECORRIDO_NO_ENCONTRADO)
                 else:
                     print(md.mostrar_camino(padres, hasta, tiempo=tiempo))
-                    ca.crear_archivo_kml(parametros[2], desde, hasta, padres)
+                    ca.crear_archivo_kml(
+                        archivo_nombre.lstrip(), desde, hasta, padres)
             except KeyError:
                 print(RECORRIDO_NO_ENCONTRADO)
 
         elif comando == ITINERARIO:  # itinerario recomendaciones.csv
-            recomendaciones = parametros[0]
+            recomendaciones = parametros
             itinerario = programa.itinerario_recomendaciones(recomendaciones)
             if itinerario is None:
                 print(RECORRIDO_NO_ENCONTRADO)
@@ -41,10 +50,11 @@ def ejecutar(archivo_mapa):
                 print(md.mostrar_camino(camino_lista=itinerario))
 
         elif comando == VIAJE:  # viaje origen, archivo
-            origen, archivo_nombre = parametros[0], parametros[1]
+            origen_nombre, archivo_nombre = parametros.split(',')
+            origen_nombre = re.sub(
+                r'\b[a-z]', lambda m: m.group().upper(), origen_nombre)
             try:
-                origen = nombre_a_ciudad[parametros[0].rstrip(
-                    ',').capitalize()]
+                origen = nombre_a_ciudad[origen_nombre]
 
                 recorrido, tiempo_total = programa.recorrido_completo(origen)
                 if recorrido is None:
@@ -53,7 +63,7 @@ def ejecutar(archivo_mapa):
                     print(md.mostrar_camino(camino_lista=recorrido,
                                             tiempo=tiempo_total))
                     ca.crear_archivo_kml(
-                        archivo_nombre, origen, origen, camino_lista=recorrido)
+                        archivo_nombre.lstrip(), origen, origen, camino_lista=recorrido)
             except KeyError:
                 print(RECORRIDO_NO_ENCONTRADO)
 
