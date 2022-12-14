@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import sys
 from manejo_de_datos.constantes import *
 import manejo_de_datos.mostrar_datos_stdin as md

@@ -72,7 +72,8 @@ class Kml():
         }
         self.raiz = et.Element('kml', attrib=atributos_kml)
         self.doc = et.SubElement(self.raiz, 'Document')
-        et.indent(self.raiz, space='    ', level=0)
+        # et.indent(self.raiz, space='    ', level=0)
+        # Para que el .kml sea mas lejible (no incluido porque el corrector automatico no lo tiene)
         et.SubElement(self.doc, 'name').text = nombre_kml
 
     def agregar_point(self, nombre, lat=0.0, lon=0.0, alt=0.0):
@@ -85,7 +86,7 @@ class Kml():
         pt = et.SubElement(pm, 'Point')
         et.SubElement(pt, 'coordinates').text = f'{lat},{lon},{alt}'
 
-        et.indent(self.doc, space='    ', level=1)
+        # et.indent(self.doc, space='    ', level=1) # Para que el .kml sea mas lejible
 
     def agregar_linestring(self, name, coords):
         """
@@ -100,7 +101,7 @@ class Kml():
         coords2 = f'{coords[1][0]},{coords[1][1]},{coords[1][2]}'
         et.SubElement(ls, 'coordinates').text = f'{coords1} {coords2}'
 
-        et.indent(self.doc, space='    ', level=1)
+        # et.indent(self.doc, space='    ', level=1) # Para que el .kml sea mas lejible
 
     def guardar(self, filename):
         tree = et.ElementTree(self.raiz)

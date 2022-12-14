@@ -1,0 +1,43 @@
+1-
+	AttributeError: module 'xml.etree.ElementTree' has no attribute 'indent'
+
+	Error en esta prueba: no se imprimieron todas las salidas esperadas
+
+
+2-
+	AttributeError: module 'xml.etree.ElementTree' has no attribute 'indent'
+
+	Error: En comando 1 Se indica que no existe recorrido, cuando se esperaba
+	un camino de costo 6
+
+	 Error en esta prueba: no se imprimieron todas las salidas esperadas
+
+
+3-
+	AttributeError: module 'xml.etree.ElementTree' has no attribute 'indent'
+
+	Error en esta prueba: no se imprimieron todas las salidas esperadas
+
+
+4- OK
+
+
+itinerario-
+	Error: No se incluyendo todas las ciudades en el itinerario
+
+
+volumen- OK
+
+
+viaje-
+	AttributeError: module 'xml.etree.ElementTree' has no attribute 'indent'
+
+	Error: No deberia haberse encontrado viaje en esta prueba
+        Comandos de la prueba:
+                viaje Fuwayrit, m1.kml
+
+qatar-
+	AttributeError: module 'xml.etree.ElementTree' has no attribute 'indent'
+
+	ValueError: invalid literal for int() with base 10: 'total:172'
+
