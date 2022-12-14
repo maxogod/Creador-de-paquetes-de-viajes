@@ -1,5 +1,5 @@
 
-def mostrar_camino(padres=None, hasta=None, tiempo=None, camino_lista=None) -> str:
+def mostrar_camino(padres=None, hasta=None, tiempo=None, camino_lista=None):
     """
     Toma SI O SI parametros **(padre & hasta) o (camino_lista)**
     En caso un *tiempo* sea pasado este sera agregado al final del string format
@@ -21,7 +21,7 @@ def mostrar_camino(padres=None, hasta=None, tiempo=None, camino_lista=None) -> s
     return f"{camino}" if tiempo is None else f"{camino}\nTiempo total:{tiempo}"
 
 
-def mostrar_peso_total(grafo) -> str:
+def mostrar_peso_total(grafo):
     peso = 0
     visitados = set()
     for v in grafo:

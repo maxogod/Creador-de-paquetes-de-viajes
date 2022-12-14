@@ -105,8 +105,3 @@ class Kml():
     def guardar(self, filename):
         tree = et.ElementTree(self.raiz)
         tree.write(filename, encoding='UTF-8', xml_declaration=True)
-
-
-if __name__ == '__main__':
-    # Prueba
-    crear_archivo_kml('athus.kml')

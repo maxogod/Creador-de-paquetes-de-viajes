@@ -22,6 +22,8 @@ def ejecutar(archivo_mapa):
             try:
                 desde_nombre, hasta_nombre, archivo_nombre = parametros.split(
                     ',')
+
+                # Capitalizar los nombres
                 desde_nombre = re.sub(
                     r'\b[a-z]', lambda m: m.group().upper(), desde_nombre)
                 hasta_nombre = re.sub(
@@ -51,6 +53,8 @@ def ejecutar(archivo_mapa):
 
         elif comando == VIAJE:  # viaje origen, archivo
             origen_nombre, archivo_nombre = parametros.split(',')
+
+            # Capitalizar Nombre
             origen_nombre = re.sub(
                 r'\b[a-z]', lambda m: m.group().upper(), origen_nombre)
             try:
@@ -70,7 +74,7 @@ def ejecutar(archivo_mapa):
         elif comando == REDUCIR_CAMINOS:  # reducir_caminos destino.pj
             arbol = programa.arbol_tendido_minimo()
             print(md.mostrar_peso_total(arbol))
-            ca.crear_archivo_pj(parametros[0], arbol)
+            ca.crear_archivo_pj(parametros, arbol)
 
 
 if __name__ == '__main__':

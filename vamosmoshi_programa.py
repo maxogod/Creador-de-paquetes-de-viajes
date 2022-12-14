@@ -114,7 +114,7 @@ class VamosMoshi:
             return self.__recorrido_ciclo_euleriano(origen), tiempo_total
         elif grados_impares == 2 and origen_es_grado_impar:
             return self.__recorrido_camino_euleriano(origen), tiempo_total
-        return None, None
+        return None, None  # No es ningun tipo de camino euleriano
 
     def __recorrido_camino_euleriano(self, origen):
         # Algoritmo Fleury
@@ -147,7 +147,7 @@ class VamosMoshi:
                 w, grafo_copia, cantidad_aristas-1, camino_euleriano)
 
     def __recorrido_ciclo_euleriano(self, origen):
-        # Algoritmo Hierholzer TODO PRETTIFY
+        # Algoritmo Hierholzer
         aristas_visitadas = set()
         recorrido = [origen]
         cantidad_aristas = obtener_cantidad_aristas(self.__grafo)
@@ -157,6 +157,8 @@ class VamosMoshi:
 
         while len(recorrido) < cantidad_aristas:
 
+            # Encontramos nodo con aristas por visitar que va a ser el nuevo origen
+            # Este for loop generalmente solo hace 1, 2 o 3 vueltas antes de Breakear
             for i in range(len(recorrido)-2, -1, -1):
                 nuevo_origen_encontrado = False
                 for w in self.__grafo.adyacentes(recorrido[i]):
@@ -167,6 +169,7 @@ class VamosMoshi:
                         break
                 if nuevo_origen_encontrado:
                     break
+
             camino_restante = [nuevo_origen]
 
             self.__dfs_ciclo_euleriano(

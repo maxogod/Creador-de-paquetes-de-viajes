@@ -1,5 +1,3 @@
-from sys import getsizeof
-
 
 class Grafo:
 
@@ -17,9 +15,6 @@ class Grafo:
 
     def __len__(self):
         return len(self.__datos)
-
-    def __sizeof__(self):
-        return getsizeof(self.__datos)
 
     def __iter__(self):
         self.__iter = iter(self.__datos)
