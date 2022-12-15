@@ -113,7 +113,7 @@ class VamosMoshi:
         """
 
         if cantidad_grados_impares(self.__grafo) == 0:
-            return self.__recorrido_circular(origen)
+            return self.__recorrido_circular2(origen)
 
         return None, None  # No es ciclo euleriano
 
@@ -147,8 +147,36 @@ class VamosMoshi:
                 recorrido.append(camino_actual.pop())
         return recorrido, tiempo
 
+    def __recorrido_circular2(self, origen):
+        # Copiamos el grafo en un dict de listas, para poder borrar las aristas facilmente
 
-# Funciones auxiliares usadas en VamosMoshi
+        cant_aristas = obtener_cantidad_aristas(self.__grafo)
+        recorrido = []
+        aristas_visitadas = set()
+        tiempo = [0]
+
+        while len(aristas_visitadas)/2 != cant_aristas:
+
+            camino_actual = []
+            self.__dfs_ciclo_euleriano(
+                camino_actual, origen, origen, aristas_visitadas, True, tiempo)
+
+        return camino_actual, tiempo[0]
+
+    def __dfs_ciclo_euleriano(self, camino, v, origen, aristas_visitadas, continuar, tiempo):
+        camino.append(v)
+        for w in self.__grafo.adyacentes(v):
+            if v == origen and not continuar:
+                break
+
+            if (v, w) not in aristas_visitadas:
+                aristas_visitadas.add((v, w))
+                aristas_visitadas.add((w, v))
+                tiempo[0] += self.__grafo.obtener_peso_arista(v, w)
+
+                self.__dfs_ciclo_euleriano(
+                    camino, w, origen, aristas_visitadas, False, tiempo)
+                break
 
 
 def obtener_cantidad_aristas(grafo):
@@ -177,14 +205,3 @@ def grados_entrada_grafo_recomendacion(grafo_recomendacion):
         for w in grafo_recomendacion.adyacentes(v):
             entr[w] += 1
     return entr
-
-
-def obtener_suma_pesos_grafo(grafo):
-    suma = 0
-    visitados = set()
-    for v in grafo:
-        for w in grafo.adyacentes(v):
-            if w not in visitados:
-                suma += grafo.obtener_peso_arista(v, w)
-        visitados.add(v)
-    return suma
