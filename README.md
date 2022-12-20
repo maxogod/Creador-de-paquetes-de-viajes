@@ -1,4 +1,5 @@
 # Creador de paquetes de viajes
+<a href="./README-ENGLISH.md">English Version of README</a>
 
 Este programa es para que dado un mapa de ciudades/paises posibles a visitar, y dadas
 ciertas restricciones que el cliente imponga, se pueda crear automaticamente un plan de viaje
