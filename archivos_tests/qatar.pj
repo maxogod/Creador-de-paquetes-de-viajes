@@ -1,28 +1,28 @@
 10
-Doha,25.286549,51.534741
-Rayan,25.286211,51.420431
-Al Wakrah,25.161182,51.598641
-Jor,25.677971,51.508375
-Mesaleed,24.979763,51.566833
-Al Ruwais,26.131422,51.200235
-Dukhan,25.428096,50.783242
-Fuwayrit,26.024136,51.375433
-Zekreet,25.483899,50.847566
-Uum Bab,25.210765,50.801382
+Doha,51.3715672,25.2839426,11
+Rayan,51.262069,25.2522065,11
+Al Wakrah,51.5649037,25.1628306,13
+Al Khor,51.4415843,25.6765709,13
+Mesaieed,51.4940599,24.9533728,12
+Al Ruwais,51.1909461,26.1287392,15
+Dukhan,50.7647751,25.4305209,14
+Fuwayrit,51.370182,26.0233425,16
+Zekreet,50.8436643,25.485043,16
+Uum Bab,50.7971119,25.2075034,15
 24
 Doha,Rayan,2
-Doha,Jor,6
-Rayan,Jor,5
+Doha,Al Khor,6
+Rayan,Al Khor,5
 Doha,Al Wakrah,3
-Doha,Mesaleed,9
-Al Wakrah,Mesaleed,3
+Doha,Mesaieed,9
+Al Wakrah,Mesaieed,3
 Doha,Uum Bab,15
-Mesaleed,Uum Bab,16
-Mesaleed,Zekreet,18
-Mesaleed,Jor,17
-Jor,Zekreet,8
-Jor,Al Ruwais,4
-Jor,Fuwayrit,3
+Mesaieed,Uum Bab,16
+Mesaieed,Zekreet,18
+Mesaieed,Al Khor,17
+Al Khor,Zekreet,8
+Al Khor,Al Ruwais,4
+Al Khor,Fuwayrit,3
 Al Ruwais,Fuwayrit,2
 Al Ruwais,Zekreet,8
 Al Ruwais,Dukhan,10
@@ -32,5 +32,5 @@ Fuwayrit,Dukhan,6
 Fuwayrit,Uum Bab,8
 Zekreet,Dukhan,1
 Uum Bab,Dukhan,3
-Mesaleed,Rayan,6
+Mesaieed,Rayan,6
 Zekreet,Rayan,4

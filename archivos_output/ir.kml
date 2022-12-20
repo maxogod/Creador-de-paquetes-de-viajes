@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns="http://earth.google.com/kml/2.1">
+	<Document>
+		<name>Camino desde Doha hacia Fuwayrit</name>
+		<Placemark>
+			<name>Doha</name>
+			<Point>
+				<coordinates>25.2839426, 51.3715672, 11.0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Fuwayrit</name>
+			<Point>
+				<coordinates>26.0233425, 51.370182, 16.0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Doha - Fuwayrit</name>
+			<LineString>
+				<coordinates>25.2839426, 51.3715672, 11.0 26.0233425, 51.370182, 16.0</coordinates>
+			</LineString>
+		</Placemark>
+	</Document>
+</kml>

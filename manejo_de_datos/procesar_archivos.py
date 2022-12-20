@@ -2,7 +2,7 @@ from .tdas.grafo import Grafo
 from .tdas.ciudades import Ciudad
 
 
-def crear_grafo_desde_pajek(archivo, nombre_a_ciudad) -> Grafo:
+def crear_grafo_desde_pajek(archivo, nombre_a_ciudad):
     """
     Procesa el archivo .pj, y Crea un grafo en base a este.
     Simultaneamente llena el diccionario *nombre_a_ciudad* con la informacion correspondiente
@@ -14,9 +14,9 @@ def crear_grafo_desde_pajek(archivo, nombre_a_ciudad) -> Grafo:
         numero_vertices = int(a.readline())
 
         for _ in range(numero_vertices):
-            ciudad_nombre, latitud, longitud = a.readline().strip().split(',')
+            ciudad_nombre, latitud, longitud, altitud = a.readline().strip().split(',')
             ciudad_objeto = Ciudad(
-                ciudad_nombre, float(latitud), float(longitud))
+                ciudad_nombre, float(latitud), float(longitud), float(altitud))
             nombre_a_ciudad[ciudad_nombre] = ciudad_objeto
             grafo_ciudades.agregar_nodo(ciudad_objeto)
 
@@ -31,7 +31,7 @@ def crear_grafo_desde_pajek(archivo, nombre_a_ciudad) -> Grafo:
     return grafo_ciudades
 
 
-def crear_grafo_recomendaciones_csv(recomendaciones, nombre_a_ciudad) -> Grafo:
+def crear_grafo_recomendaciones_csv(recomendaciones, nombre_a_ciudad):
     grafo_itinerario = Grafo(dirigido=True)
     with open(recomendaciones) as r:
         for line in r:
@@ -44,12 +44,3 @@ def crear_grafo_recomendaciones_csv(recomendaciones, nombre_a_ciudad) -> Grafo:
             grafo_itinerario.agregar_arista(ciudad1, ciudad2)
 
     return grafo_itinerario
-
-
-if __name__ == '__main__':
-    # Prueba
-    grafo = crear_grafo_desde_pajek('archivos/qatar.pj', {})
-    for v in grafo:
-        print(f'\n{v.obtener_nombre()}\n')
-        for w in grafo.adyacentes(v):
-            print(w.obtener_nombre())

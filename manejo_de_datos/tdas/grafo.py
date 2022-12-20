@@ -18,15 +18,15 @@ class Grafo:
     def __len__(self):
         return len(self.__datos)
 
-    def __sizeof__(self):
-        return getsizeof(self.__datos)
-
     def __iter__(self):
         self.__iter = iter(self.__datos)
         return self
 
     def __next__(self):
         return next(self.__iter)
+
+    def __sizeof__(self):
+        return getsizeof(self.data)
 
     def agregar_nodo(self, v):
         self.__datos[v] = {}

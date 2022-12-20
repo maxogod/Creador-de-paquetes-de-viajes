@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns="http://earth.google.com/kml/2.1">
+	<Document>
+		<name>Camino desde Doha hacia Doha</name>
+		<Placemark>
+			<name>Doha</name>
+			<Point>
+				<coordinates>51.3715672,25.2839426,11.0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Rayan</name>
+			<Point>
+				<coordinates>51.262069,25.2522065,11.0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Al Khor</name>
+			<Point>
+				<coordinates>51.4415843,25.6765709,13.0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Al Wakrah</name>
+			<Point>
+				<coordinates>51.5649037,25.1628306,13.0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Mesaieed</name>
+			<Point>
+				<coordinates>51.4940599,24.9533728,12.0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Uum Bab</name>
+			<Point>
+				<coordinates>50.7971119,25.2075034,15.0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Zekreet</name>
+			<Point>
+				<coordinates>50.8436643,25.485043,16.0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Al Ruwais</name>
+			<Point>
+				<coordinates>51.1909461,26.1287392,15.0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Fuwayrit</name>
+			<Point>
+				<coordinates>51.370182,26.0233425,16.0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Dukhan</name>
+			<Point>
+				<coordinates>50.7647751,25.4305209,14.0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Doha - Rayan</name>
+			<LineString>
+				<coordinates>51.3715672,25.2839426,11.0 51.262069,25.2522065,11.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Rayan - Al Khor</name>
+			<LineString>
+				<coordinates>51.262069,25.2522065,11.0 51.4415843,25.6765709,13.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Al Khor - Doha</name>
+			<LineString>
+				<coordinates>51.4415843,25.6765709,13.0 51.3715672,25.2839426,11.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Doha - Al Wakrah</name>
+			<LineString>
+				<coordinates>51.3715672,25.2839426,11.0 51.5649037,25.1628306,13.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Al Wakrah - Mesaieed</name>
+			<LineString>
+				<coordinates>51.5649037,25.1628306,13.0 51.4940599,24.9533728,12.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Mesaieed - Doha</name>
+			<LineString>
+				<coordinates>51.4940599,24.9533728,12.0 51.3715672,25.2839426,11.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Doha - Uum Bab</name>
+			<LineString>
+				<coordinates>51.3715672,25.2839426,11.0 50.7971119,25.2075034,15.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Uum Bab - Mesaieed</name>
+			<LineString>
+				<coordinates>50.7971119,25.2075034,15.0 51.4940599,24.9533728,12.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Mesaieed - Zekreet</name>
+			<LineString>
+				<coordinates>51.4940599,24.9533728,12.0 50.8436643,25.485043,16.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Zekreet - Al Khor</name>
+			<LineString>
+				<coordinates>50.8436643,25.485043,16.0 51.4415843,25.6765709,13.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Al Khor - Al Ruwais</name>
+			<LineString>
+				<coordinates>51.4415843,25.6765709,13.0 51.1909461,26.1287392,15.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Al Ruwais - Fuwayrit</name>
+			<LineString>
+				<coordinates>51.1909461,26.1287392,15.0 51.370182,26.0233425,16.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Fuwayrit - Zekreet</name>
+			<LineString>
+				<coordinates>51.370182,26.0233425,16.0 50.8436643,25.485043,16.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Zekreet - Al Ruwais</name>
+			<LineString>
+				<coordinates>50.8436643,25.485043,16.0 51.1909461,26.1287392,15.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Al Ruwais - Dukhan</name>
+			<LineString>
+				<coordinates>51.1909461,26.1287392,15.0 50.7647751,25.4305209,14.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Dukhan - Fuwayrit</name>
+			<LineString>
+				<coordinates>50.7647751,25.4305209,14.0 51.370182,26.0233425,16.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Fuwayrit - Al Khor</name>
+			<LineString>
+				<coordinates>51.370182,26.0233425,16.0 51.4415843,25.6765709,13.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Al Khor - Mesaieed</name>
+			<LineString>
+				<coordinates>51.4415843,25.6765709,13.0 51.4940599,24.9533728,12.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Mesaieed - Rayan</name>
+			<LineString>
+				<coordinates>51.4940599,24.9533728,12.0 51.262069,25.2522065,11.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Rayan - Zekreet</name>
+			<LineString>
+				<coordinates>51.262069,25.2522065,11.0 50.8436643,25.485043,16.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Zekreet - Dukhan</name>
+			<LineString>
+				<coordinates>50.8436643,25.485043,16.0 50.7647751,25.4305209,14.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Dukhan - Uum Bab</name>
+			<LineString>
+				<coordinates>50.7647751,25.4305209,14.0 50.7971119,25.2075034,15.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Uum Bab - Fuwayrit</name>
+			<LineString>
+				<coordinates>50.7971119,25.2075034,15.0 51.370182,26.0233425,16.0</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Fuwayrit - Doha</name>
+			<LineString>
+				<coordinates>51.370182,26.0233425,16.0 51.3715672,25.2839426,11.0</coordinates>
+			</LineString>
+		</Placemark>
+	</Document>
+</kml>
