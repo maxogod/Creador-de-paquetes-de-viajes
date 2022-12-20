@@ -1,3 +1,5 @@
+from sys import getsizeof
+
 
 class Grafo:
 
@@ -22,6 +24,9 @@ class Grafo:
 
     def __next__(self):
         return next(self.__iter)
+
+    def __sizeof__(self):
+        return getsizeof(self.data)
 
     def agregar_nodo(self, v):
         self.__datos[v] = {}

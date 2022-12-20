@@ -1,0 +1,21 @@
+10
+Doha,25.2839426,51.3715672
+Rayan,25.2522065,51.262069
+Al Wakrah,25.1628306,51.5649037
+Al Khor,25.6765709,51.4415843
+Mesaieed,24.9533728,51.4940599
+Al Ruwais,26.1287392,51.1909461
+Dukhan,25.4305209,50.7647751
+Fuwayrit,26.0233425,51.370182
+Zekreet,25.485043,50.8436643
+Uum Bab,25.2075034,50.7971119
+9
+Doha,Rayan,2
+Doha,Al Wakrah,3
+Rayan,Zekreet,4
+Rayan,Al Khor,5
+Al Wakrah,Mesaieed,3
+Al Khor,Fuwayrit,3
+Al Ruwais,Fuwayrit,2
+Dukhan,Zekreet,1
+Dukhan,Uum Bab,3

@@ -14,9 +14,9 @@ def crear_grafo_desde_pajek(archivo, nombre_a_ciudad):
         numero_vertices = int(a.readline())
 
         for _ in range(numero_vertices):
-            ciudad_nombre, latitud, longitud = a.readline().strip().split(',')
+            ciudad_nombre, latitud, longitud, altitud = a.readline().strip().split(',')
             ciudad_objeto = Ciudad(
-                ciudad_nombre, float(latitud), float(longitud))
+                ciudad_nombre, float(latitud), float(longitud), float(altitud))
             nombre_a_ciudad[ciudad_nombre] = ciudad_objeto
             grafo_ciudades.agregar_nodo(ciudad_objeto)
 
